@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中秋快乐</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{
+            min-height:100vh;
+            background:#081028;
+            overflow:hidden;
+            font-family:system-ui,sans-serif;
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            justify-content:center;
+            color:#fff;
+        }
+        .moon{
+            width:180px;height:180px;
+            border-radius:50%;
+            background:#fffdd0;
+            box-shadow:0 0 60px #fff8b0,0 0 120px #fff290;
+            margin-bottom:30px;
+            animation:moonGlow 4s ease-in-out infinite alternate;
+        }
+        @keyframes moonGlow{
+            from{box-shadow:0 0 60px #fff8b0,0 0 120px #fff290;}
+            to{box-shadow:0 0 80px #fffbd2,0 0 160px #fff7aa;}
+        }
+        h1{
+            font-size:48px;
+            margin-bottom:16px;
+            text-shadow:0 0 12px #ffe;
+        }
+        .text{
+            font-size:20px;
+            color:#ffedd0;
+            margin-bottom:40px;
+        }
+        .tip{
+            font-size:16px;
+            color:#ccc;
+        }
+        .star{
+            position:absolute;
+            background:#fff;
+            border-radius:50%;
+            animation:twinkle 2s infinite;
+        }
+        @keyframes twinkle{
+            0%,100%{opacity:0.2}
+            50%{opacity:1}
+        }
+    </style>
+</head>
+<body>
+    <div class="moon"></div>
+    <h1>中秋快乐</h1>
+    <p class="text">月圆人圆，岁岁平安</p>
+
+<script>
+// 生成星星背景
+for(let i=0;i<120;i++){
+    const s = document.createElement('div');
+    s.className='star';
+    s.style.left = Math.random()*100+'%';
+    s.style.top = Math.random()*100+'%';
+    s.style.width = Math.random()*2+1+'px';
+    s.style.height = s.style.width;
+    s.style.animationDelay = Math.random()*2+'s';
+    document.body.appendChild(s);
+}
+
+// 点击烟花交互
+document.body.onclick = function(e){
+    const fire = document.createElement('div');
+    fire.style.position='absolute';
+    fire.style.left=e.clientX+'px';
+    fire.style.top=e.clientY+'px';
+    fire.style.width='8px';
+    fire.style.height='8px';
+    fire.style.borderRadius='50%';
+    fire.style.background='#ffd760';
+    document.body.appendChild(fire);
+    for(let i=0;i<8;i++){
+        let p = document.createElement('div');
+        p.style.position='absolute';
+        p.style.left=e.clientX+'px';
+        p.style.top=e.clientY+'px';
+        p.style.width='4px';
+        p.style.height='4px';
+        p.style.borderRadius='50%';
+        p.style.background='#ffdd88';
+        const angle = Math.PI*2/8*i;
+        const dist = 80;
+        const endX = e.clientX + Math.cos(angle)*dist;
+        const endY = e.clientY + Math.sin(angle)*dist;
+        p.animate([
+            {transform:'translate(0,0)',opacity:1},
+            {transform:`translate(${endX-e.clientX}px,${endY-e.clientY}px)`,opacity:0}
+        ],{duration:800});
+        document.body.appendChild(p);
+        setTimeout(()=>p.remove(),800);
+    }
+    setTimeout(()=>fire.remove(),800);
+}
+</script>
+</body>
+</html>
